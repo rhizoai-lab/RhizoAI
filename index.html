@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#116149"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-192.png"><title>RhizoAI Mobile</title><style>
-:root{font-family:system-ui,-apple-system,Arial;background:#f3f7f4;color:#16372b}*{box-sizing:border-box}body{margin:0}header{background:#116149;color:white;padding:20px 18px 16px}header h1{margin:0;font-size:26px}header small{opacity:.85}.wrap{max-width:800px;margin:auto;padding:16px 16px 95px}.tabs{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;background:white;border-top:1px solid #dbe5dd;z-index:5;padding-bottom:env(safe-area-inset-bottom)}.tabs button{flex:1;max-width:200px;background:white;border:0;padding:12px 2px;color:#52695c;font-size:12px}.tabs button.active{color:#116149;font-weight:800;border-top:3px solid #116149}section{display:none}section.active{display:block}.card{background:white;border:1px solid #dce9e0;border-radius:16px;padding:17px;margin:12px 0;box-shadow:0 3px 12px #16412a08}h2{font-size:21px;margin:8px 0 12px}h3{font-size:16px;margin:0 0 8px}.muted{color:#64766a;font-size:13px}.tag{display:inline-block;background:#e5f3e9;color:#246342;padding:5px 8px;border-radius:8px;font-size:12px;margin:3px 3px 3px 0}label{display:block;margin:12px 0 5px;font-size:13px;font-weight:700}input,select,textarea{width:100%;border:1px solid #c7d9ce;border-radius:10px;padding:12px;background:#fff;color:#16372b;font:inherit}button.primary,.secondary{border:0;background:#116149;color:white;padding:13px 16px;border-radius:11px;font-weight:700;margin:10px 6px 0 0;cursor:pointer}.secondary{background:#e4f0e8;color:#116149}.warning{border-left:4px solid #bf8731;padding:10px;background:#fff8e9;font-size:13px;border-radius:6px}a{color:#116149;word-break:break-word}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#eaf5ed;padding:13px;border-radius:12px}.metric b{display:block;font-size:23px}ul{padding-left:20px;line-height:1.5}.result{margin-top:15px} .hide{display:none}.checklist{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.checklist label{display:flex;align-items:center;gap:7px;margin:0;padding:8px;border:1px solid #dce9e0;border-radius:9px;font-size:12px}.checklist input{width:auto}header{display:flex;justify-content:space-between;align-items:center;gap:10px}header .brand{min-width:0}.lang-switch{display:flex;gap:4px;flex-shrink:0}.lang-switch button{background:#ffffff20;color:#fff;border:1px solid #ffffff88;border-radius:9px;padding:8px 10px;font-size:13px;font-weight:700}.lang-switch button.selected{background:white;color:#116149}.photo-grid{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.photo-grid img{width:90px;height:90px;object-fit:cover;border-radius:10px;border:1px solid #ddd}.research-link{display:inline-block;padding:8px 10px;margin:4px 4px 4px 0;border-radius:8px;background:#e9f5ef;color:#155a3d;font-size:13px;text-decoration:none}</style></head><body><header><div class="brand"><h1>🌱 RhizoAI</h1><small>Soil & Microbiome Research · Mobile v0.9.1</small></div><div class="lang-switch" aria-label="Language"><button id="ruLang" type="button">RU</button><button id="enLang" type="button">EN</button></div></header><main class="wrap"><section id="home" class="active"><h2>Исследовательская панель</h2><p>Первая мобильная версия: анализ почвы, каталог функций микроорганизмов и сохранение проектов на этом устройстве.</p><div class="grid"><div class="metric"><b id="projectCount">0</b><small>проектов</small></div><div class="metric"><b>6</b><small>функциональных групп</small></div></div><div class="card"><h3>Что уже работает</h3><p>✓ Ввод и предварительная интерпретация pH и EC<br>✓ Поиск по демонстрационному справочнику<br>✓ Сохранение проектов на устройстве<br>✓ Экспорт и импорт JSON<br>✓ Ссылки на живой поиск в NCBI, PubMed и BacDive</p></div><div class="warning">Научные рекомендации пока не автоматизированы. Демонстрационный каталог не подтверждает свойства конкретных штаммов. Для диагноза нужны лабораторные данные.</div></section>
+:root{font-family:system-ui,-apple-system,Arial;background:#f3f7f4;color:#16372b}*{box-sizing:border-box}body{margin:0}header{background:#116149;color:white;padding:20px 18px 16px}header h1{margin:0;font-size:26px}header small{opacity:.85}.wrap{max-width:800px;margin:auto;padding:16px 16px 95px}.tabs{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;background:white;border-top:1px solid #dbe5dd;z-index:5;padding-bottom:env(safe-area-inset-bottom)}.tabs button{flex:1;max-width:200px;background:white;border:0;padding:12px 2px;color:#52695c;font-size:12px}.tabs button.active{color:#116149;font-weight:800;border-top:3px solid #116149}section{display:none}section.active{display:block}.card{background:white;border:1px solid #dce9e0;border-radius:16px;padding:17px;margin:12px 0;box-shadow:0 3px 12px #16412a08}h2{font-size:21px;margin:8px 0 12px}h3{font-size:16px;margin:0 0 8px}.muted{color:#64766a;font-size:13px}.tag{display:inline-block;background:#e5f3e9;color:#246342;padding:5px 8px;border-radius:8px;font-size:12px;margin:3px 3px 3px 0}label{display:block;margin:12px 0 5px;font-size:13px;font-weight:700}input,select,textarea{width:100%;border:1px solid #c7d9ce;border-radius:10px;padding:12px;background:#fff;color:#16372b;font:inherit}button.primary,.secondary{border:0;background:#116149;color:white;padding:13px 16px;border-radius:11px;font-weight:700;margin:10px 6px 0 0;cursor:pointer}.secondary{background:#e4f0e8;color:#116149}.warning{border-left:4px solid #bf8731;padding:10px;background:#fff8e9;font-size:13px;border-radius:6px}a{color:#116149;word-break:break-word}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#eaf5ed;padding:13px;border-radius:12px}.metric b{display:block;font-size:23px}ul{padding-left:20px;line-height:1.5}.result{margin-top:15px} .hide{display:none}.checklist{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.checklist label{display:flex;align-items:center;gap:7px;margin:0;padding:8px;border:1px solid #dce9e0;border-radius:9px;font-size:12px}.checklist input{width:auto}header{display:flex;justify-content:space-between;align-items:center;gap:10px}header .brand{min-width:0}.lang-switch{display:flex;gap:4px;flex-shrink:0}.lang-switch button{background:#ffffff20;color:#fff;border:1px solid #ffffff88;border-radius:9px;padding:8px 10px;font-size:13px;font-weight:700}.lang-switch button.selected{background:white;color:#116149}.photo-grid{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.photo-grid img{width:90px;height:90px;object-fit:cover;border-radius:10px;border:1px solid #ddd}.research-link{display:inline-block;padding:8px 10px;margin:4px 4px 4px 0;border-radius:8px;background:#e9f5ef;color:#155a3d;font-size:13px;text-decoration:none}</style></head><body><header><div class="brand"><h1>🌱 RhizoAI</h1><small>Soil & Microbiome Research · Mobile v0.9.2</small></div><div class="lang-switch" aria-label="Language"><button id="ruLang" type="button">RU</button><button id="enLang" type="button">EN</button></div></header><main class="wrap"><section id="home" class="active"><h2>Исследовательская панель</h2><p>Первая мобильная версия: анализ почвы, каталог функций микроорганизмов и сохранение проектов на этом устройстве.</p><div class="grid"><div class="metric"><b id="projectCount">0</b><small>проектов</small></div><div class="metric"><b>6</b><small>функциональных групп</small></div></div><div class="card"><h3>Что уже работает</h3><p>✓ Ввод и предварительная интерпретация pH и EC<br>✓ Поиск по демонстрационному справочнику<br>✓ Сохранение проектов на устройстве<br>✓ Экспорт и импорт JSON<br>✓ Ссылки на живой поиск в NCBI, PubMed и BacDive</p></div><div class="warning">Научные рекомендации пока не автоматизированы. Демонстрационный каталог не подтверждает свойства конкретных штаммов. Для диагноза нужны лабораторные данные.</div></section>
 <section id="soil"><h2>Анализ почвы</h2><div class="card"><label>Название проекта</label><input id="projectName" placeholder="Например, Томаты — теплица 1"><label>Растение</label><select id="crop"><option value="">Выберите культуру — </option><option value="Zea mays">Кукуруза — Zea mays</option><option value="Triticum aestivum">Пшеница — Triticum aestivum</option><option value="Hordeum vulgare">Ячмень — Hordeum vulgare</option><option value="Sorghum bicolor">Сорго — Sorghum bicolor</option><option value="Cucumis sativus">Огурец — Cucumis sativus</option><option value="Solanum lycopersicum">Томат — Solanum lycopersicum</option><option value="Ocimum basilicum">Базилик — Ocimum basilicum</option><option value="Capsicum annuum">Перец — Capsicum annuum</option><option value="Solanum tuberosum">Картофель — Solanum tuberosum</option><option value="Glycine max">Соя — Glycine max</option><option value="Avena sativa">Овёс — Avena sativa</option><option value="Vaccinium corymbosum">Голубика — Vaccinium corymbosum</option></select><label>Стадия развития / Growth stage</label><select id="growthStage"></select><div class="grid"><div><label>pH</label><input id="ph" type="number" min="0" max="14" step="0.1" placeholder="7.8"></div><div><label>EC (dS/m)</label><input id="ec" type="number" min="0" step="0.1" placeholder="1.5"></div></div><details class="card" open><summary><b>Soil Intelligence — свойства и доступность элементов</b></summary>
 <label>Тип почвы</label><select id="soilType"><option value="unknown">Не определён</option><option value="chernozem">Чернозём</option><option value="calcareous">Карбонатная</option><option value="sandy">Песчаная</option><option value="loamy">Суглинистая</option><option value="clayey">Глинистая</option><option value="other">Другая</option></select>
 <label>Плодородие (отдельная оценка)</label><select id="soilFertility"><option value="unknown">Не оценено</option><option value="poor">Бедная</option><option value="medium">Средняя</option><option value="rich">Плодородная</option></select>
@@ -354,11 +354,16 @@ function report(p,target){
  const card=make('div',undefined,'card');target.appendChild(card);
  card.appendChild(make('h3',T('Научный отчёт — подбор микроорганизмов','Scientific report — microbial selection')));
  card.appendChild(make('p',T('Предварительный подбор по введённым данным. Это не диагноз, не доказательство эффективности и не рекомендация по внесению.','Rule-based candidate selection from entered data. Not a diagnosis, efficacy claim, or application recommendation.'),'muted'));
- const section=(title)=>{card.appendChild(make('h4',title));};
+ let currentSection=card;
+ const section=(title,expanded=false)=>{
+   const panel=make('details');panel.open=expanded;panel.style.margin='12px 0';
+   const summary=make('summary',title);summary.style.fontWeight='700';summary.style.cursor='pointer';summary.style.padding='10px 0';
+   panel.appendChild(summary);card.appendChild(panel);currentSection=panel;
+ };
  section(T('1. Что ещё проверить','1. Evidence gaps'));
- const ul=make('ul');(flags.length?flags:[T('Проверить вид растения, условия опыта и локальные пороги лабораторных показателей.','Verify crop, experimental conditions and local lab thresholds.')]).forEach(x=>ul.appendChild(make('li',x)));card.appendChild(ul);
+ const ul=make('ul');(flags.length?flags:[T('Проверить вид растения, условия опыта и локальные пороги лабораторных показателей.','Verify crop, experimental conditions and local lab thresholds.')]).forEach(x=>ul.appendChild(make('li',x)));currentSection.appendChild(ul);
  section(T('2. Возможные штаммы для научного поиска','2. Candidate strains for literature review'));
- const tbl=make('div');card.appendChild(tbl);
+ const tbl=make('div');currentSection.appendChild(tbl);
  for(const x of items){
   const row=make('div',undefined,'card');
   row.appendChild(make('b',x.role+' — '+x.groups));
@@ -368,12 +373,12 @@ function report(p,target){
   const links=make('p');links.append(anchor('PubMed ↗',pub(query)),document.createTextNode(' · '),anchor('Europe PMC ↗',epmc(query)),document.createTextNode(' · '),anchor('NCBI ↗',catalog(x.example)));
   row.appendChild(links);tbl.appendChild(row);
  }
- section(T('3. Варианты консорциума для эксперимента','3. Experimental consortium options'));
+ section(T('3. Варианты консорциума для эксперимента','3. Experimental consortium options'),true);
 
- const designs=make('div');card.appendChild(designs);
- const selected=make('div');card.appendChild(selected);
+ const designs=make('div');currentSection.appendChild(designs);
+ const selected=make('div');currentSection.appendChild(selected);
  const candidate=items.map((x,i)=>({id:i,name:x.example,role:x.role,why:x.why}));
- const controls=make('div',undefined,'card');card.insertBefore(controls,designs);
+ const controls=make('div');currentSection.insertBefore(controls,designs);
  controls.appendChild(make('p',T('Выбери режим подбора консорциума:','Choose a consortium design mode:')));
  const mode=make('select');
  for(const [value,ru,en] of [['auto','Автоматически','Automatic'],['manual','Выбрать компоненты','Choose components']]){
@@ -393,12 +398,14 @@ function report(p,target){
   const chosen=candidate.filter(x=>mode.value==='auto'||checkboxes[x.id].checked);
   const unique=[];chosen.forEach(x=>{if(!unique.some(y=>y.name===x.name))unique.push(x)});
   if(!unique.length){designs.appendChild(make('p',T('Выбери хотя бы один компонент.','Select at least one component.')));return;}
-  const ol=make('ol');
+  const ol=make('div');let count=0;
   const variant=(label,names,explanation)=>{
-   const li=make('li');li.appendChild(make('b',label+': '));
-   li.appendChild(document.createTextNode(names.length?names.join(' + '):T('без инокулянта','no inoculant')));
-   if(explanation)li.appendChild(make('p',explanation,'muted'));
-   ol.appendChild(li);
+   count++;
+   const wrapper=make('label');wrapper.style.display='block';wrapper.style.padding='9px 0';wrapper.style.borderBottom='1px solid #e4e8e6';
+   const radio=make('input');radio.type='radio';radio.name='consortiumPick_'+(p.date||'').replace(/\W/g,'')+'_'+(p.name||'').replace(/\W/g,'');radio.value=JSON.stringify({label,components:names,description:explanation});radio.checked=count===1;
+   wrapper.appendChild(radio);wrapper.appendChild(document.createTextNode(' '+label+': '+(names.length?names.join(' + '):T('без инокулянта','no inoculant'))));
+   const detail=make('details');const sm=make('summary',T('Обоснование','Rationale'));detail.appendChild(sm);detail.appendChild(make('p',explanation,'muted'));wrapper.appendChild(detail);ol.appendChild(wrapper);
+
   };
   variant(T('Контроль','Control'),[],T('Базовое сравнение без микробного инокулянта.','Baseline comparison without microbial inoculant.'));
   unique.forEach((x,i)=>variant(T('Отдельный компонент','Single component')+' '+(i+1),[x.name],x.why));
@@ -413,19 +420,47 @@ function report(p,target){
  mode.addEventListener('change',build);
  checkboxes.forEach(c=>c.addEventListener('change',build));
  build();
- card.appendChild(make('p',T('Все сочетания гипотетические. До применения проверить идентичность штамма, антагонизм, совместимость, безопасность и результаты испытаний на данной культуре.','All combinations are hypothetical. Before use, verify strain identity, antagonism, compatibility, safety and crop-specific trial evidence.'),'muted'));
+ const saveBtn=make('button',T('Сохранить выбранный консорциум','Save selected consortium'));
+ saveBtn.type='button';currentSection.appendChild(saveBtn);
+ const saveStatus=make('p',undefined,'muted');currentSection.appendChild(saveStatus);
+ saveBtn.addEventListener('click',()=>{
+  const radio=designs.querySelector('input[type="radio"]:checked');
+  if(!radio){saveStatus.textContent=T('Сначала выберите вариант.','Select a treatment first.');return;}
+  const selection=JSON.parse(radio.value);
+  const entry={...selection,mode:mode.value,savedAt:new Date().toISOString(),status:'research hypothesis'};
+  if(!Array.isArray(p.savedConsortia))p.savedConsortia=[];
+  p.savedConsortia.push(entry);
+  localStorage.setItem('rhizoai_projects_v02',JSON.stringify(projects));
+  saveStatus.textContent=T('Сохранено в проекте: ','Saved in project: ')+selection.label;
+ });
+ if(p.savedConsortia?.length){
+  const saved=make('details');saved.appendChild(make('summary',T('Сохранённые варианты: ','Saved designs: ')+p.savedConsortia.length));
+  const list=make('ul');p.savedConsortia.forEach(x=>list.appendChild(make('li',x.label+': '+x.components.join(' + '))));saved.appendChild(list);currentSection.appendChild(saved);
+ }
+ currentSection.appendChild(make('p',T('Все сочетания гипотетические. До применения проверить идентичность штамма, антагонизм, совместимость, безопасность и результаты испытаний на данной культуре.','All combinations are hypothetical. Before use, verify strain identity, antagonism, compatibility, safety and crop-specific trial evidence.'),'muted'));
  section(T('4. Коммерческие биопрепараты','4. Commercial biological products'));
- card.appendChild(make('p',T('Проверка доступности и регистрации препаратов ещё не автоматизирована. Торговые названия и разрешения не выдумываются.','Product availability and registration are not automatically checked. No invented product names or approvals.'),'muted'));
+ currentSection.appendChild(make('p',T('Проверка доступности и регистрации препаратов ещё не автоматизирована. Торговые названия и разрешения не выдумываются.','Product availability and registration are not automatically checked. No invented product names or approvals.'),'muted'));
  const country=regulatory[p.country]||regulatory.IL;
- card.appendChild(anchor(country[0]+' ↗',country[1]));
+ currentSection.appendChild(anchor(country[0]+' ↗',country[1]));
  const q=[p.crop,items[0]?.example,'microbial inoculant biological product'].filter(Boolean).join(' ');
- card.appendChild(make('p'));card.appendChild(anchor(T('Исследования коммерческих формуляций ↗','Research on commercial formulations ↗'),pub(q)));
+ currentSection.appendChild(make('p'));currentSection.appendChild(anchor(T('Исследования коммерческих формуляций ↗','Research on commercial formulations ↗'),pub(q)));
  section(T('5. Проверка коллекционных номеров','5. Verify culture collection identifiers'));
- card.appendChild(make('p',T('NCBI Taxonomy ID не является коллекционным номером штамма. Проверяйте точную идентичность и депонирование в коллекции.','NCBI Taxonomy ID is not a strain collection number. Verify strain identity and deposit records.'),'muted'));
- for(const [name,url] of [['BacDive','https://bacdive.dsmz.de/'],['DSMZ','https://www.dsmz.de/'],['ATCC','https://www.atcc.org/'],['JCM','https://jcm.brc.riken.jp/']]){card.append(anchor(name+' ↗',url));card.append(document.createTextNode(' · '))}
+ currentSection.appendChild(make('p',T('NCBI Taxonomy ID не является коллекционным номером штамма. Проверяйте точную идентичность и депонирование в коллекции.','NCBI Taxonomy ID is not a strain collection number. Verify strain identity and deposit records.'),'muted'));
+ for(const [name,url] of [['BacDive','https://bacdive.dsmz.de/'],['DSMZ','https://www.dsmz.de/'],['ATCC','https://www.atcc.org/'],['JCM','https://jcm.brc.riken.jp/']]){currentSection.append(anchor(name+' ↗',url));currentSection.append(document.createTextNode(' · '))}
 }
 const analyze=document.getElementById('analyze');
-analyze.addEventListener('click',()=>{if(projects.length)report(projects[0],document.getElementById('scientificReport'));});
+analyze.addEventListener('click',()=>{
+ if(projects.length)report(projects[0],document.getElementById('scientificReport'));
+ const r=document.getElementById('soilResult');
+ if(r && !r.querySelector('details')){
+  const existing=r.querySelector('.card');if(existing){
+   const panel=make('details');const heading=make('summary',T('Предварительная оценка — раскрыть','Preliminary assessment — expand'));
+   heading.style.fontWeight='700';panel.appendChild(heading);
+   while(existing.firstChild)panel.appendChild(existing.firstChild);
+   existing.appendChild(panel);
+  }
+ }
+});
 document.getElementById('projectList').addEventListener('click',e=>{
  const btn=e.target.closest('[data-science]');if(!btn)return;
  const p=projects[Number(btn.dataset.science)];if(!p)return;
