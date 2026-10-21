@@ -1,5 +1,5 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#116149"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-192.png"><title>RhizoAI Mobile</title><style>
-:root{font-family:system-ui,-apple-system,Arial;background:#f3f7f4;color:#16372b}*{box-sizing:border-box}body{margin:0}header{background:#116149;color:white;padding:20px 18px 16px}header h1{margin:0;font-size:26px}header small{opacity:.85}.wrap{max-width:800px;margin:auto;padding:16px 16px 95px}.tabs{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;background:white;border-top:1px solid #dbe5dd;z-index:5;padding-bottom:env(safe-area-inset-bottom)}.tabs button{flex:1;max-width:200px;background:white;border:0;padding:12px 2px;color:#52695c;font-size:12px}.tabs button.active{color:#116149;font-weight:800;border-top:3px solid #116149}section{display:none}section.active{display:block}.card{background:white;border:1px solid #dce9e0;border-radius:16px;padding:17px;margin:12px 0;box-shadow:0 3px 12px #16412a08}h2{font-size:21px;margin:8px 0 12px}h3{font-size:16px;margin:0 0 8px}.muted{color:#64766a;font-size:13px}.tag{display:inline-block;background:#e5f3e9;color:#246342;padding:5px 8px;border-radius:8px;font-size:12px;margin:3px 3px 3px 0}label{display:block;margin:12px 0 5px;font-size:13px;font-weight:700}input,select,textarea{width:100%;border:1px solid #c7d9ce;border-radius:10px;padding:12px;background:#fff;color:#16372b;font:inherit}button.primary,.secondary{border:0;background:#116149;color:white;padding:13px 16px;border-radius:11px;font-weight:700;margin:10px 6px 0 0;cursor:pointer}.secondary{background:#e4f0e8;color:#116149}.warning{border-left:4px solid #bf8731;padding:10px;background:#fff8e9;font-size:13px;border-radius:6px}a{color:#116149;word-break:break-word}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#eaf5ed;padding:13px;border-radius:12px}.metric b{display:block;font-size:23px}ul{padding-left:20px;line-height:1.5}.result{margin-top:15px} .hide{display:none}.checklist{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.checklist label{display:flex;align-items:center;gap:7px;margin:0;padding:8px;border:1px solid #dce9e0;border-radius:9px;font-size:12px}.checklist input{width:auto}header{display:flex;justify-content:space-between;align-items:center;gap:10px}header .brand{min-width:0}.lang-switch{display:flex;gap:4px;flex-shrink:0}.lang-switch button{background:#ffffff20;color:#fff;border:1px solid #ffffff88;border-radius:9px;padding:8px 10px;font-size:13px;font-weight:700}.lang-switch button.selected{background:white;color:#116149}.photo-grid{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.photo-grid img{width:90px;height:90px;object-fit:cover;border-radius:10px;border:1px solid #ddd}.research-link{display:inline-block;padding:8px 10px;margin:4px 4px 4px 0;border-radius:8px;background:#e9f5ef;color:#155a3d;font-size:13px;text-decoration:none}</style></head><body><header><div class="brand"><h1>🌱 RhizoAI</h1><small>Soil & Microbiome Research · Mobile v0.9.15</small></div><div class="lang-switch" aria-label="Language"><button id="ruLang" type="button">RU</button><button id="enLang" type="button">EN</button></div></header><main class="wrap"><section id="home" class="active"><h2>Исследовательская панель</h2><p>Первая мобильная версия: анализ почвы, каталог функций микроорганизмов и сохранение проектов на этом устройстве.</p><div class="grid"><div class="metric"><b id="projectCount">0</b><small>проектов</small></div><div class="metric"><b>6</b><small>функциональных групп</small></div></div><div class="card"><h3>Что уже работает</h3><p>✓ Ввод и предварительная интерпретация pH и EC<br>✓ Поиск по демонстрационному справочнику<br>✓ Сохранение проектов на устройстве<br>✓ Экспорт и импорт JSON<br>✓ Ссылки на живой поиск в NCBI, PubMed и BacDive</p></div><div class="warning">Научные рекомендации пока не автоматизированы. Демонстрационный каталог не подтверждает свойства конкретных штаммов. Для диагноза нужны лабораторные данные.</div></section>
+:root{font-family:system-ui,-apple-system,Arial;background:#f3f7f4;color:#16372b}*{box-sizing:border-box}body{margin:0}header{background:#116149;color:white;padding:20px 18px 16px}header h1{margin:0;font-size:26px}header small{opacity:.85}.wrap{max-width:800px;margin:auto;padding:16px 16px 95px}.tabs{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;background:white;border-top:1px solid #dbe5dd;z-index:5;padding-bottom:env(safe-area-inset-bottom)}.tabs button{flex:1;max-width:200px;background:white;border:0;padding:12px 2px;color:#52695c;font-size:12px}.tabs button.active{color:#116149;font-weight:800;border-top:3px solid #116149}section{display:none}section.active{display:block}.card{background:white;border:1px solid #dce9e0;border-radius:16px;padding:17px;margin:12px 0;box-shadow:0 3px 12px #16412a08}h2{font-size:21px;margin:8px 0 12px}h3{font-size:16px;margin:0 0 8px}.muted{color:#64766a;font-size:13px}.tag{display:inline-block;background:#e5f3e9;color:#246342;padding:5px 8px;border-radius:8px;font-size:12px;margin:3px 3px 3px 0}label{display:block;margin:12px 0 5px;font-size:13px;font-weight:700}input,select,textarea{width:100%;border:1px solid #c7d9ce;border-radius:10px;padding:12px;background:#fff;color:#16372b;font:inherit}button.primary,.secondary{border:0;background:#116149;color:white;padding:13px 16px;border-radius:11px;font-weight:700;margin:10px 6px 0 0;cursor:pointer}.secondary{background:#e4f0e8;color:#116149}.warning{border-left:4px solid #bf8731;padding:10px;background:#fff8e9;font-size:13px;border-radius:6px}a{color:#116149;word-break:break-word}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#eaf5ed;padding:13px;border-radius:12px}.metric b{display:block;font-size:23px}ul{padding-left:20px;line-height:1.5}.result{margin-top:15px} .hide{display:none}.checklist{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.checklist label{display:flex;align-items:center;gap:7px;margin:0;padding:8px;border:1px solid #dce9e0;border-radius:9px;font-size:12px}.checklist input{width:auto}header{display:flex;justify-content:space-between;align-items:center;gap:10px}header .brand{min-width:0}.lang-switch{display:flex;gap:4px;flex-shrink:0}.lang-switch button{background:#ffffff20;color:#fff;border:1px solid #ffffff88;border-radius:9px;padding:8px 10px;font-size:13px;font-weight:700}.lang-switch button.selected{background:white;color:#116149}.photo-grid{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.photo-grid img{width:90px;height:90px;object-fit:cover;border-radius:10px;border:1px solid #ddd}.research-link{display:inline-block;padding:8px 10px;margin:4px 4px 4px 0;border-radius:8px;background:#e9f5ef;color:#155a3d;font-size:13px;text-decoration:none}</style></head><body><header><div class="brand"><h1>🌱 RhizoAI</h1><small>Soil & Microbiome Research · Mobile v0.9.16</small></div><div class="lang-switch" aria-label="Language"><button id="ruLang" type="button">RU</button><button id="enLang" type="button">EN</button></div></header><main class="wrap"><section id="home" class="active"><h2>Исследовательская панель</h2><p>Первая мобильная версия: анализ почвы, каталог функций микроорганизмов и сохранение проектов на этом устройстве.</p><div class="grid"><div class="metric"><b id="projectCount">0</b><small>проектов</small></div><div class="metric"><b>6</b><small>функциональных групп</small></div></div><div class="card"><h3>Что уже работает</h3><p>✓ Ввод и предварительная интерпретация pH и EC<br>✓ Поиск по демонстрационному справочнику<br>✓ Сохранение проектов на устройстве<br>✓ Экспорт и импорт JSON<br>✓ Ссылки на живой поиск в NCBI, PubMed и BacDive</p></div><div class="warning">Научные рекомендации пока не автоматизированы. Демонстрационный каталог не подтверждает свойства конкретных штаммов. Для диагноза нужны лабораторные данные.</div></section>
 <section id="soil"><h2>Анализ почвы</h2><div class="card"><label>Название проекта</label><input id="projectName" placeholder="Например, Томаты — теплица 1"><label>Растение</label><select id="crop"><option value="">Выберите культуру — </option><option value="Zea mays">Кукуруза — Zea mays</option><option value="Triticum aestivum">Пшеница — Triticum aestivum</option><option value="Hordeum vulgare">Ячмень — Hordeum vulgare</option><option value="Sorghum bicolor">Сорго — Sorghum bicolor</option><option value="Cucumis sativus">Огурец — Cucumis sativus</option><option value="Solanum lycopersicum">Томат — Solanum lycopersicum</option><option value="Ocimum basilicum">Базилик — Ocimum basilicum</option><option value="Capsicum annuum">Перец — Capsicum annuum</option><option value="Solanum tuberosum">Картофель — Solanum tuberosum</option><option value="Glycine max">Соя — Glycine max</option><option value="Avena sativa">Овёс — Avena sativa</option><option value="Vaccinium corymbosum">Голубика — Vaccinium corymbosum</option></select><label>Стадия развития / Growth stage</label><select id="growthStage"></select><div class="grid"><div><label>pH</label><input id="ph" type="number" min="0" max="14" step="0.1" placeholder="7.8"></div><div><label>EC (dS/m)</label><input id="ec" type="number" min="0" step="0.1" placeholder="1.5"></div></div><details class="card" open><summary><b>Soil Intelligence — свойства и доступность элементов</b></summary>
 <label>Тип почвы</label><select id="soilType"><option value="unknown">Не определён</option><option value="chernozem">Чернозём</option><option value="calcareous">Карбонатная</option><option value="sandy">Песчаная</option><option value="loamy">Суглинистая</option><option value="clayey">Глинистая</option><option value="other">Другая</option></select>
 <label>Плодородие (отдельная оценка)</label><select id="soilFertility"><option value="unknown">Не оценено</option><option value="poor">Бедная</option><option value="medium">Средняя</option><option value="rich">Плодородная</option></select>
@@ -636,132 +636,103 @@ for(const id of ['ruLang','enLang'])document.getElementById(id)?.addEventListene
 </script>
 
 <script>
-/* v0.9.15: automatic, cancellable registry scan and conservative target matching */
+/* v0.9.16: bounded registry lookup with source-schema validation */
 (()=>{
 const T=(ru,en)=>document.getElementById('ruLang')?.classList.contains('selected')?ru:en;
-const fld=(r,keys)=>{for(const k of keys)if(r[k]!=null&&String(r[k]).trim())return String(r[k]).trim();return ''};
-const clean=x=>String(x||'').trim().toLowerCase().replace(/[\u0591-\u05c7]/g,'').replace(/\s+/g,' ');
-const cropAliases={
- tomato:['tomato','solanum lycopersicum','עגבניה','עגבנייה'],
- wheat:['wheat','triticum','חיטה'],cucumber:['cucumber','cucumis sativus','מלפפון'],
- pepper:['pepper','capsicum','פלפל'],potato:['potato','solanum tuberosum','תפוח אדמה'],
- strawberry:['strawberry','fragaria','תות שדה'],grape:['grape','vitis','ענבים','גפן'],
- maize:['maize','corn','zea mays','תירס'],rice:['rice','oryza','אורז'],
- lettuce:['lettuce','lactuca','חסה'],basil:['basil','ocimum','בזיליקום']
-};
-const pathogens={rootrot:['Fusarium spp.','Rhizoctonia solani','Pythium spp.','Phytophthora spp.'],wilt:['Fusarium oxysporum','Verticillium spp.'],leafspot:['Alternaria spp.','Botrytis cinerea']};
-const patterns={
- rootrot:{exact:/(root[\s-]*rot|crown[\s-]*rot|damping[\s-]*off|רקבון שורש|ריקבון שורש|רקבון צוואר|ריקבון צוואר)/i,
- related:/(fusarium|rhizoctonia|pythium|phytophthora|ריזוקטוניה|פוזריום|פיתיום|פיטופתורה|soil[\s-]*borne|רקבון|ריקבון)/i},
- wilt:{exact:/(wilt|נבילה|כמישה)/i,related:/(fusarium|verticillium|פוזריום|ורטיציליום)/i},
- leafspot:{exact:/(leaf[\s-]*spot|leaf[\s-]*blight|כתמי עלים|כתם עלה)/i,
- related:/(alternaria|botrytis|gray mold|grey mould|mildew|אלטרנריה|בוטריטיס|עובש אפור|כימשון)/i}
-};
+const el=(p,t,v)=>{const x=document.createElement(t);if(v!==undefined)x.textContent=v;p.appendChild(x);return x};
+const field=(r,keys)=>{for(const k of keys){if(r[k]!=null&&String(r[k]).trim())return String(r[k]).trim()}return ''};
+const cropKeys=['גידול אנגלי','גידול','crop','Crop'];
+const targetKeys=['נגע אנגלי','נגע','target','Target'];
 const microbial=/(bacillus|trichoderma|pseudomonas|streptomyces|beauveria|metarhizium|isaria|paecilomyces|lecanicillium|ampelomyces|clonostachys|paenibacillus|brevibacillus|purpureocillium|aureobasidium|baculovirus|nucleopolyhedrovirus|granulovirus|בצילוס|טריכודרמה|פסאודומונס)/i;
-const insects=/(insect|caterpillar|larva|moth|borer|beetle|aphid|thrips|whitefly|leafminer|armyworm|spodoptera|tuta|helicoverpa|plutella|עש|זחל|כנימ|תריפס|חרק|עש הטוטה)/i;
-const el=(parent,tag,txt)=>{let n=document.createElement(tag);if(txt!==undefined)n.textContent=txt;parent.appendChild(n);return n};
-let cancel=()=>{};
+const disease={rootrot:/(root[ -]?rot|crown[ -]?rot|damping[ -]?off|fusarium|rhizoctonia|pythium|phytophthora|ריקבון שורש|רקבון שורש|פוזריום|ריזוקטוניה)/i,wilt:/(wilt|fusarium|verticillium|נבילה|פוזריום)/i,leafspot:/(leaf[ -]?spot|alternaria|botrytis|gray mold|grey mould|כתמי עלים|בוטריטיס)/i};
+const crops={wheat:['wheat','חיטה','triticum'],tomato:['tomato','עגבניה','עגבנייה','solanum lycopersicum'],cucumber:['cucumber','מלפפון'],pepper:['pepper','פלפל'],potato:['potato','תפוח אדמה'],strawberry:['strawberry','תות שדה'],maize:['maize','corn','תירס'],lettuce:['lettuce','חסה'],rice:['rice','אורז'],grape:['grape','ענבים','גפן']};
+let stop=()=>{};
 function show(){
- cancel();
- const root=document.getElementById('problemResults');if(!root)return;
+ stop();const root=document.getElementById('problemResults');if(!root)return;
  root.querySelector('#rhizoProblemRegistry')?.remove();
- const type=document.getElementById('problemType')?.value;
  const crop=document.getElementById('problemCrop')?.value.trim()||'';
- const pathogen=document.getElementById('problemPathogen')?.value.trim()||'';
+ const type=document.getElementById('problemType')?.value||'';
  const box=el(root,'div');box.id='rhizoProblemRegistry';box.className='card';
- el(box,'h3',T('Реестр Израиля: препараты по проблеме','Israel registry: products by problem'));
- if(!patterns[type]){
-  el(box,'p',T('Для этой проблемы поиск по назначениям реестра пока не предусмотрен.','Registry-use matching is not available for this problem.')).className='muted';return;
- }
- el(box,'p',T('Возможные возбудители (не диагноз): ','Possible pathogens (not a diagnosis): ')+(pathogens[type]||[]).join(' · ')).className='muted';
- el(box,'p',T('Проверяются зарегистрированные назначения препаратов, а не общие свойства рода бактерий. Биостимуляторы могут отсутствовать в реестре.','Matches are based on recorded product uses, not assumed bacterial-genus properties. Biostimulants may be absent from this registry.')).className='muted';
+ el(box,'h3',T('Реестр Израиля: поиск препаратов','Israel registry: product lookup'));
+ el(box,'p',T('Поиск проверяет поля исходного реестра. Если культура или заболевание отсутствуют в данных, совпадение не подтверждается.','The search checks the registry source fields. If crop or disease fields are missing, no crop-specific match can be confirmed.')).className='muted';
  const status=el(box,'p',T('Нажмите для поиска.','Tap to search.'));status.className='muted';
- const results=el(box,'div');
- const actions=el(box,'div');
- const go=el(actions,'button',T('Найти по всему реестру','Search all registry records'));go.className='secondary';go.type='button';
- const stop=el(actions,'button',T('Остановить','Stop'));stop.className='secondary';stop.type='button';stop.hidden=true;
- const exact=el(results,'details');exact.open=true;
- el(exact,'summary',T('Точные совпадения по назначению','Direct target matches')+' (0)');
- const exactList=el(exact,'div');
- const related=el(results,'details');
- el(related,'summary',T('Возможные совпадения — проверить','Related targets — verify')+' (0)');
- const relatedList=el(related,'div');
- const all=el(results,'details');all.open=true;
- el(all,'summary',T('Другие микробные препараты для культуры','Other microbial products for crop')+' (0)');
- const allList=el(all,'div');
- const debug=el(results,'details');el(debug,'summary',T('Диагностика фильтров','Filter diagnostics'));
- const debugText=el(debug,'p','');debugText.className='muted';
- const sampleText=el(debug,'pre','');sampleText.style.cssText='white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px';
- const note=el(results,'p',T('Совпадение по назначению не доказывает эффективность против конкретного возбудителя или актуальность регистрации. Проверяйте этикетку.','A recorded target match does not prove pathogen-specific efficacy or current registration. Verify the label.'));note.className='muted';
- let controller=null, run=0;
- cancel=()=>{run++;controller?.abort();stop.hidden=true;go.disabled=false};
- stop.onclick=()=>{cancel();status.textContent=T('Поиск остановлен; показаны частичные результаты.','Stopped; showing partial results.')};
- function display(r,where,match){
-  const title=fld(r,['שם תכשיר אנגלי','שם תכשיר'])||T('Без названия','Unnamed');
-  const active=fld(r,['חומר פעיל']);
-  const target=fld(r,['נגע אנגלי','נגע']);
-  const cropName=fld(r,['גידול אנגלי','גידול']);
-  const license=fld(r,['מספר רשיון']);
-  const d=el(where,'details');d.style.cssText='padding:10px 0;border-bottom:1px solid #dce9e0';
-  el(d,'summary',title+' · #'+(license||'—'));
-  el(d,'p',T('Микроорганизм: ','Organism: ')+active);
-  el(d,'p',T('Культура: ','Crop: ')+cropName);
-  el(d,'p',T('Назначение: ','Recorded target: ')+target);
-  if(match==='related')el(d,'p',T('Смежное назначение, не подтверждение против выбранной проблемы.','Related target, not confirmation for the selected problem.')).className='muted';
-  const label=fld(r,['תווית']);
-  if(/^https:\/\//i.test(label)){const a=el(d,'a',T('Официальная этикетка ↗','Official label ↗'));a.href=label;a.target='_blank';a.rel='noopener noreferrer'}
+ const actions=el(box,'div');const go=el(actions,'button',T('Проверить реестр','Check registry'));go.type='button';go.className='secondary';
+ const cancelBtn=el(actions,'button',T('Остановить','Stop'));cancelBtn.type='button';cancelBtn.className='secondary';cancelBtn.hidden=true;
+ const verified=el(box,'details');verified.open=true;const verifiedHead=el(verified,'summary',T('Подтверждённые совпадения по культуре и назначению','Verified crop and target matches')+' (0)');const verifiedBody=el(verified,'div');
+ const cropOnly=el(box,'details');const cropHead=el(cropOnly,'summary',T('Для культуры, другое назначение','Crop matches, other uses')+' (0)');const cropBody=el(cropOnly,'div');
+ const unknown=el(box,'details');const unknownHead=el(unknown,'summary',T('Микробные записи: культура не подтверждена','Microbial records: crop unverified')+' (0)');const unknownBody=el(unknown,'div');
+ const diag=el(box,'details');const diagHead=el(diag,'summary',T('Диагностика источника','Source diagnostics'));const diagBody=el(diag,'p','');diagBody.className='muted';
+ el(box,'p',T('Запись реестра не доказывает актуальность регистрации, безопасность или эффективность против конкретного возбудителя.','A registry record does not establish current authorization, safety, or efficacy against a particular pathogen.')).className='muted';
+ let controller=null,seq=0;
+ stop=()=>{seq++;controller?.abort();cancelBtn.hidden=true;go.disabled=false};
+ cancelBtn.onclick=()=>{stop();status.textContent=T('Поиск остановлен; результаты частичные.','Stopped; results are partial.')};
+ const norm=x=>String(x||'').toLowerCase().trim();
+ const cropName=norm(crop);const aliases=Object.values(crops).find(a=>a.some(x=>norm(x)===cropName))||[crop];
+ const cropMatch=x=>aliases.some(a=>norm(a)&&norm(x).includes(norm(a)));
+ function display(record,container,verifiedCrop){
+  const name=field(record,['שם תכשיר אנגלי','שם תכשיר'])||T('Без названия','Unnamed');
+  const active=field(record,['חומר פעיל','חומר פעיל אנגלי']);
+  const c=field(record,cropKeys),t=field(record,targetKeys);
+  const d=el(container,'details');d.style.cssText='padding:9px 0;border-bottom:1px solid #dce9e0';
+  el(d,'summary',name+' · '+(field(record,['מספר רשיון'])||'—'));
+  el(d,'p',T('Действующее вещество: ','Active ingredient: ')+(active||'—'));
+  el(d,'p',T('Культура в записи: ','Crop in record: ')+(c||T('не указана','not provided')));
+  el(d,'p',T('Назначение в записи: ','Target in record: ')+(t||T('не указано','not provided')));
+  if(!verifiedCrop)el(d,'p',T('Нельзя утверждать, что препарат предназначен для выбранной культуры.','This record cannot be claimed as approved for the selected crop.')).className='muted';
  }
  go.onclick=async()=>{
-  cancel();const id=run;
-  exactList.replaceChildren();relatedList.replaceChildren();allList.replaceChildren();
-  const cropKey=clean(crop);
-  const aliases=Object.entries(cropAliases).find(([k,v])=>k===cropKey||v.some(a=>clean(a)===cropKey))?.[1]||[crop];
-  if(!crop){status.textContent=T('Сначала укажите культуру.','Enter a crop first.');return}
-  go.disabled=true;stop.hidden=false;
-  controller=new AbortController();
-  let offset=0,total=Infinity,direct=0,possible=0,other=0,microCount=0,cropCount=0,seen=new Set(),failed=false,unclassified=0,samples=[];
-  const q=cropKey==='tomato'?'Tomato':crop;
+  stop();const id=seq;if(!crop){status.textContent=T('Укажите культуру.','Enter a crop.');return}
+  if(!disease[type]){status.textContent=T('Для выбранной проблемы сопоставление пока не предусмотрено.','Target matching is not available for this problem.');return}
+  controller=new AbortController();go.disabled=true;cancelBtn.hidden=false;
+  verifiedBody.replaceChildren();cropBody.replaceChildren();unknownBody.replaceChildren();
+  let scanned=0,micro=0,vc=0,co=0,unc=0,missingCrop=0,missingTarget=0;
+  const keysSeen=new Set(),ids=new Set();let queried=0;
+  // A bounded, focused lookup. The source does not necessarily contain crop/target columns.
+  const queries=[crop, ...aliases.filter(x=>norm(x)!==cropName).slice(0,1)];
   try{
-   while(id===run&&offset<total){
-    const url='https://data.gov.il/api/3/action/datastore_search?resource_id=cffe0c50-6856-4187-9315-51bc113cb718&limit=100&offset='+offset;
-    const response=await fetch(url,{signal:controller.signal,headers:{Accept:'application/json'}});
-    if(!response.ok)throw Error('HTTP '+response.status);
-    const json=await response.json();if(!json.success||!Array.isArray(json.result?.records))throw Error('Invalid response');
-    if(id!==run)break;
-    const batch=json.result.records;
-    const count=Number(json.result.total);if(Number.isFinite(count))total=count;
-    for(const r of batch){
-     const active=fld(r,['חומר פעיל','חומר פעיל אנגלי','חומרים פעילים','Active Ingredient','active_ingredient']),target=fld(r,['נגע אנגלי','נגע','target']);
-     const cropName=fld(r,['גידול אנגלי','גידול','crop']);
-     const title=fld(r,['שם תכשיר אנגלי','שם תכשיר']);
-     if(samples.length<3)samples.push({fields:Object.keys(r).slice(0,18),active:active||'(empty)',crop:cropName||'(empty)',name:title||'(empty)'});
-     const isMicro=microbial.test(active+' '+title+' '+fld(r,['חומר פעיל אנגלי','חומרים פעילים']));
-     if(!isMicro){unclassified++;continue}microCount++;
-     if(!aliases.some(a=>clean(a)&&clean(cropName).includes(clean(a))))continue;cropCount++;
-     const license=fld(r,['מספר רשיון']);
-     const key=[license,cropName,target,title].join('|');if(seen.has(key))continue;
-     const directHit=patterns[type].exact.test(target);
-     const relatedHit=patterns[type].related.test(target);
-     
-     seen.add(key);
-     if(directHit&&!insects.test(target)){direct++;display(r,exactList,'direct')}else if(relatedHit&&!insects.test(target)){possible++;display(r,relatedList,'related')}else{other++;display(r,allList,'other')}
+   for(const q of queries){
+    let offset=0,total=Infinity;
+    while(id===seq&&offset<total&&offset<1000){
+     const url='https://data.gov.il/api/3/action/datastore_search?resource_id=cffe0c50-6856-4187-9315-51bc113cb718&q='+encodeURIComponent(q)+'&limit=100&offset='+offset;
+     const response=await fetch(url,{signal:controller.signal,headers:{Accept:'application/json'}});
+     if(!response.ok)throw Error('HTTP '+response.status);
+     const data=await response.json();if(!data.success||!Array.isArray(data.result?.records))throw Error('Invalid registry response');
+     const records=data.result.records;total=Number(data.result.total)||0;
+     for(const r of records){
+      Object.keys(r).forEach(k=>keysSeen.add(k));
+      const idKey=String(r._id||JSON.stringify(r));if(ids.has(idKey))continue;ids.add(idKey);scanned++;
+      const active=field(r,['חומר פעיל','חומר פעיל אנגלי','חומרים פעילים']);
+      const title=field(r,['שם תכשיר אנגלי','שם תכשיר']);
+      if(!microbial.test(active+' '+title))continue;micro++;
+      const c=field(r,cropKeys),t=field(r,targetKeys);
+      if(!c){missingCrop++;if(unc<30)display(r,unknownBody,false);unc++;continue}
+      if(!cropMatch(c))continue;
+      if(!t){missingTarget++;if(co<30)display(r,cropBody,true);co++;continue}
+      if(disease[type].test(t)){if(vc<30)display(r,verifiedBody,true);vc++}
+      else{if(co<30)display(r,cropBody,true);co++}
+     }
+     offset+=records.length;
+     verifiedHead.textContent=T('Подтверждённые совпадения по культуре и назначению','Verified crop and target matches')+' ('+vc+')';
+     cropHead.textContent=T('Для культуры, другое назначение','Crop matches, other uses')+' ('+co+')';
+     unknownHead.textContent=T('Микробные записи: культура не подтверждена','Microbial records: crop unverified')+' ('+unc+')';
+     const cropFieldPresent=[...keysSeen].some(k=>cropKeys.includes(k));
+     const targetFieldPresent=[...keysSeen].some(k=>targetKeys.includes(k));
+     diagBody.textContent=T('Просмотрено уникальных записей: ','Unique records checked: ')+scanned+' · '+T('Микробных: ','Microbial: ')+micro+' · '+T('Без поля культуры: ','Without crop: ')+missingCrop+' · '+T('Без назначения: ','Without target: ')+missingTarget+' · '+T('Поле культуры существует: ','Crop column exists: ')+(cropFieldPresent?'Yes':'No')+' · '+T('Поле назначения существует: ','Target column exists: ')+(targetFieldPresent?'Yes':'No');
+     status.textContent=T('Проверено: ','Checked: ')+scanned+' · '+T('Найдено микробных: ','Microbial records: ')+micro+' · '+T('По запросу: ','Query: ')+q;
+     if(!records.length)break;
     }
-    offset+=batch.length;
-    exact.querySelector('summary').textContent=T('Точные совпадения по назначению','Direct target matches')+' ('+direct+')';
-    related.querySelector('summary').textContent=T('Возможные совпадения — проверить','Related targets — verify')+' ('+possible+')';
-    all.querySelector('summary').textContent=T('Другие микробные препараты для культуры','Other microbial products for crop')+' ('+other+')';
-    debugText.textContent=T('Микробных записей: ','Microbial records: ')+microCount+' · '+T('Для культуры: ','Matching crop: ')+cropCount+' · '+T('Не классифицировано: ','Unclassified: ')+unclassified+' · '+T('Другие назначения: ','Other targets: ')+other;
-    sampleText.textContent=T('Примеры полей ответа реестра (без личных данных):','Registry response field samples:')+'\\n'+JSON.stringify(samples,null,2);
-    status.textContent=T('Проверено: ','Scanned: ')+offset+' / '+total+' · '+T('Совпадений: ','Matches: ')+(direct+possible+other);
-    if(!batch.length)break;
-    await new Promise(resolve=>setTimeout(resolve,30));
+    queried++;
    }
-   if(id===run)status.textContent+=(offset>=total?' · '+T('Поиск завершён','Search complete'):' · '+T('Частичные результаты','Partial results'))+(direct+possible+other===0?' · '+T('Подходящих записей не найдено','No matching records found'):'');
-  }catch(e){if(id===run){failed=true;status.textContent=T('Не удалось завершить поиск; результаты частичные.','Search interrupted; results are partial.')+' ('+offset+'/'+total+')';}}
-  finally{if(id===run){go.disabled=false;stop.hidden=true;}}
+   if(id===seq){status.textContent+= ' · '+T('Проверка завершена.','Lookup finished.');
+    if(missingCrop>0&&vc===0&&co===0){
+     el(box,'p',T('Внимание: используемый набор данных не содержит культуру для обнаруженных микробных записей. Для поиска разрешённого применения необходимо открыть официальный реестр и проверить этикетку.','Note: this dataset does not provide crop data for the detected microbial records. Check the official registry and label for permitted crop uses.')).className='muted';
+    }
+   }
+  }catch(e){if(id===seq)status.textContent=T('Ошибка ответа реестра; показаны частичные результаты: ','Registry error; partial results: ')+String(e.message||e)}
+  finally{if(id===seq){go.disabled=false;cancelBtn.hidden=true}}
  };
 }
-document.getElementById('problemFindBtn')?.addEventListener('click',()=>{setTimeout(show,0)});
+document.getElementById('problemFindBtn')?.addEventListener('click',()=>setTimeout(show,0));
 })();
 </script>
 </body></html>
