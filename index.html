@@ -636,7 +636,7 @@ for(const id of ['ruLang','enLang'])document.getElementById(id)?.addEventListene
 </script>
 
 <script>
-/* v0.9.18: registry source-aware classification and transparent matching */
+/* v0.9.19: group registry uses by license; crop-specific warnings */
 (()=>{
 const T=(ru,en)=>document.getElementById('ruLang')?.classList.contains('selected')?ru:en;
 const el=(p,t,v)=>{const x=document.createElement(t);if(v!==undefined)x.textContent=v;p.appendChild(x);return x};
@@ -668,11 +668,27 @@ const groups=[group('Культура и точное назначение','Cro
 const diag=el(box,'details');el(diag,'summary',T('Диагностика источника','Source diagnostics'));const diagnostic=el(diag,'div');diagnostic.className='muted';
 el(box,'p',T('Совпадение текста не подтверждает эффективность, безопасность или актуальную регистрацию. Проверяйте действующую этикетку.','Text matching does not establish efficacy, safety or current registration. Verify the current label.')).className='muted';
 let controller=null,seq=0;stop=()=>{seq++;controller?.abort();go.disabled=false;cancel.hidden=true};cancel.onclick=()=>{stop();status.textContent=T('Остановлено. Результаты неполные.','Stopped. Results incomplete.')};
-function display(r,parent,reason){const d=el(parent,'details');d.style.cssText='padding:8px 0;border-bottom:1px solid #dce9e0';el(d,'summary',(val(r,nk)||'—')+' · #'+(val(r,lk)||'—'));el(d,'p',T('Причина включения: ','Why listed: ')+reason).className='muted';el(d,'p',T('Действующее вещество: ','Active ingredient: ')+(val(r,ak)||'—'));el(d,'p',T('Культура: ','Crop: ')+(val(r,ck)||'—'));el(d,'p',T('Зарегистрированное назначение в записи: ','Recorded target: ')+(val(r,tk)||'—'));
-el(d,'p',T('Не является рекомендацией против указанного заболевания. Сверьте актуальную этикетку.','Not a recommendation against the stated disease. Check the current label.')).className='muted'}
+function display(entry,parent,reason){
+ const r=entry.r,rows=entry.rows;
+ const d=el(parent,'details');d.style.cssText='padding:9px 0;border-bottom:1px solid #dce9e0';
+ el(d,'summary',(val(r,nk)||'—')+' · #'+(val(r,lk)||'—')+' · '+rows.length+' '+T('зап.','records'));
+ el(d,'p',T('Почему показан: ','Why listed: ')+reason).className='muted';
+ el(d,'p',T('Действующее вещество: ','Active ingredient: ')+(val(r,ak)||'—'));
+ const intro=el(d,'p',T('Найденные применения по этой лицензии: ','Recorded uses under this license: ')+rows.length);intro.style.fontWeight='600';
+ const ul=el(d,'ul');const useSeen=new Set();let shown=0;
+ for(const item of rows){const c=val(item,ck)||'—',t=val(item,tk)||'—';const k=norm(c)+'|'+norm(t);if(useSeen.has(k))continue;useSeen.add(k);if(shown++>=40)continue;
+ const li=el(ul,'li',c+' — '+t);
+ const url=val(item,['קישור לתווית','תווית','label_url','Label URL']);
+ if(/^https:\/\//i.test(url)){li.appendChild(document.createTextNode(' · '));const a=el(li,'a',T('Этикетка ↗','Label ↗'));a.href=url;a.target='_blank';a.rel='noopener noreferrer';}
+ }
+ if(useSeen.size>40)el(d,'p',T('Показаны первые 40 различных применений.','First 40 distinct uses shown.')).className='muted';
+ if(entry.group===3)el(d,'p',T('Внимание: совпадение для выбранной культуры не найдено. Это НЕ рекомендация для неё.','Warning: no match for the selected crop was found. This is NOT a recommendation for that crop.')).className='muted';
+ if(entry.group===2)el(d,'p',T('Культура совпадает, но назначение другое. Не переносите эффективность на указанную проблему.','Crop matches, but the recorded use is different. Do not infer efficacy for the selected problem.')).className='muted';
+ el(d,'p',T('Проверьте действующую этикетку и актуальный статус регистрации.','Check the current label and authorization status.')).className='muted';
+}
 go.onclick=async()=>{stop();const my=seq;const prob=problems[type];if(!crop){status.textContent=T('Укажите культуру.','Enter a crop.');return}if(!prob){status.textContent=T('Для этой проблемы сопоставление реестра пока не поддерживается.','Registry matching is not yet supported for this problem.');return}
 controller=new AbortController();go.disabled=true;cancel.hidden=false;groups.forEach(g=>g.body.replaceChildren());diagnostic.replaceChildren();
-let checked=0,micro=0,returned=0,missingActive=0,errors=[];const seen=new Set(),samples=[],microSamples=[],fields=new Set(),buckets=groups.map(()=>new Map());
+let checked=0,micro=0,returned=0,missingActive=0,errors=[];const seen=new Set(),samples=[],microSamples=[],fields=new Set(),licenses=new Map();
 const terms=[...new Set([crop,...names.filter(a=>norm(a)!==norm(crop)).slice(0,2),'Bacillus','Trichoderma','Pseudomonas',...prob.queries,...(pathogen?[pathogen]:[])])];
 for(const q of terms){if(my!==seq)break;let offset=0;try{while(my===seq&&offset<200){const url='https://data.gov.il/api/3/action/datastore_search?resource_id=cffe0c50-6856-4187-9315-51bc113cb718&q='+encodeURIComponent(q)+'&limit=100&offset='+offset;
 const response=await fetch(url,{signal:controller.signal,headers:{Accept:'application/json'}});if(!response.ok)throw Error('HTTP '+response.status);const data=await response.json();if(!data.success||!Array.isArray(data.result?.records))throw Error('Unexpected response');const rows=data.result.records;returned+=rows.length;
@@ -681,13 +697,20 @@ const active=val(r,ak),name=val(r,nk),c=val(r,ck),target=val(r,tk);if(!active)mi
 if(!microRE.test(active+' '+name))continue;micro++;if(microSamples.length<8)microSamples.push((active||'[empty active]')+' / '+(name||'[empty name]'));
 const same=matchesCrop(c),exact=prob.direct.test(target),related=prob.related.test(target)||(pathogen&&norm(target).includes(norm(pathogen)));
 const idx=same?(exact?0:related?1:2):3;
-const key=[val(r,lk)||name,norm(c),norm(target)].join('|');if(!buckets[idx].has(key))buckets[idx].set(key,{r,reason:idx===0?T('Точное совпадение формулировки назначения','Exact recorded target wording'):idx===1?T('Связанное название патогена; необходима проверка','Related pathogen name; verification required'):idx===2?T('Та же культура, но другое назначение','Same crop, different recorded use'):T('Микробный препарат, но другая культура','Microbial product for a different crop')});
+const license=val(r,lk),key=license?'license:'+norm(license):'unlicensed:'+norm(name)+'|'+norm(active);
+if(!licenses.has(key))licenses.set(key,{r,rows:[],group:idx});
+const entry=licenses.get(key);entry.rows.push(r);
+if(idx<entry.group){entry.group=idx;entry.r=r;}
+
 }
 offset+=rows.length;status.textContent=T('Проверено: ','Checked: ')+checked+' · '+T('Микробных записей: ','Microbial records: ')+micro+' · '+q;
 if(rows.length<100)break;
 }}catch(e){if(my===seq)errors.push(q+': '+String(e.message||e))}}
 if(my!==seq)return;
-groups.forEach((g,i)=>{g.h.textContent=T(g.ru,g.en)+' ('+buckets[i].size+')';let n=0;for(const x of buckets[i].values()){if(n++>=30)break;display(x.r,g.body,x.reason)}if(buckets[i].size>30)el(g.body,'p',T('Показаны первые 30. Уточните поиск для остальных.','First 30 shown. Refine search for more.')).className='muted'});
+const buckets=groups.map(()=>[]);
+for(const entry of licenses.values())buckets[entry.group].push(entry);
+groups.forEach((g,i)=>{g.h.textContent=T(g.ru,g.en)+' ('+buckets[i].length+')';let n=0;for(const entry of buckets[i]){if(n++>=30)break;const reasons=[T('Совпадение культуры и формулировки назначения','Crop and recorded use match'),T('Культура совпадает; связанный патоген требует проверки','Crop matches; related pathogen needs verification'),T('Та же культура, но другое назначение','Same crop, different recorded use'),T('Применения только для других культур в проверенной выборке','Only other-crop uses in checked sample')];display(entry,g.body,reasons[i])}if(buckets[i].length>30)el(g.body,'p',T('Показаны первые 30 лицензий. Уточните поиск для остальных.','First 30 licenses shown. Refine search for more.')).className='muted'});
+
 el(diagnostic,'p',T('Уникальных записей: ','Unique records: ')+checked+' · '+T('Строк получено: ','Rows returned: ')+returned+' · '+T('Микробных по ключевым словам: ','Microbial by keywords: ')+micro+' · '+T('Без действующего вещества: ','Without active ingredient: ')+missingActive);
 const kd=el(diagnostic,'details');el(kd,'summary',T('Названия полей','Registry field names'));el(kd,'p',[...fields].join(' · ')||'—');
 const sd=el(diagnostic,'details');el(sd,'summary',T('Примеры всех веществ','Sample active ingredients'));const su=el(sd,'ul');samples.forEach(v=>el(su,'li',v));
