@@ -1,0 +1,2 @@
+RhizoAI v0.9.13: automatic cancellable registry scan, bilingual crop/target matching, direct/related results, no repeated empty messages. Registry matches are preliminary, not evidence of efficacy or current authorization. Export projects JSON before updating.
+0.9.21: Literature discovery for crop + pathogen + candidate strain using Europe PMC, with metadata match indicators and clear evidence limits.

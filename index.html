@@ -636,7 +636,7 @@ for(const id of ['ruLang','enLang'])document.getElementById(id)?.addEventListene
 </script>
 
 <script>
-/* v0.9.21: five-tier crop/pathogen relevance and crop-first grouped records */
+/* v0.9.21: version display and cache correction; registry grouping retained */
 (()=>{
 const T=(ru,en)=>document.getElementById('ruLang')?.classList.contains('selected')?ru:en;
 const el=(p,t,v)=>{const x=document.createElement(t);if(v!==undefined)x.textContent=v;p.appendChild(x);return x};
@@ -659,12 +659,12 @@ const names=Object.values(aliases).find(a=>a.some(x=>norm(x)===norm(crop)))||[cr
 const matchesCrop=x=>names.some(a=>norm(a)&&norm(x).includes(norm(a)));
 const box=el(root,'div');box.id='rhizoProblemRegistry';box.className='card';
 el(box,'h3',T('Реестр Израиля: препараты по проблеме','Israel registry: products by problem'));
-el(box,'p',T('Отдельно показаны точные формулировки назначения, связанные названия патогенов и препараты с другим назначением. Все результаты предварительные и зависят от выборки реестра.','Crop-and-use matches, disease matches on other crops, and unrelated uses are separated. Results are preliminary and depend on the registry sample.')).className='muted';
+el(box,'p',T('Отдельно показаны точные формулировки назначения, связанные названия патогенов и препараты с другим назначением. Все результаты предварительные и зависят от выборки реестра.','Exact recorded uses, related pathogen names and other uses are separated. Results are preliminary and depend on the registry sample.')).className='muted';
 const status=el(box,'p',T('Нажмите для поиска.','Tap to search.'));status.className='muted';
 const go=el(box,'button',T('Проверить реестр','Check registry'));go.type='button';go.className='secondary';
 const cancel=el(box,'button',T('Остановить','Stop'));cancel.type='button';cancel.className='secondary';cancel.hidden=true;
 function group(ru,en){const d=el(box,'details');const h=el(d,'summary',T(ru,en)+' (0)');const body=el(d,'div');return {h,body,ru,en}}
-const groups=[group('A — культура и точное назначение','A — crop and exact recorded use'),group('A — культура и связанный патоген (проверить)','A — crop and related pathogen (verify)'),group('B — заболевание, другая культура','B — disease match, different crop'),group('C — та же культура, другое назначение','C — same crop, different use'),group('D — другие микробные препараты','D — other microbial products')];groups[0].h.parentElement.open=true;groups[2].h.parentElement.open=true;
+const groups=[group('Культура и точное назначение','Crop and exact recorded use'),group('Культура и связанное назначение — проверить','Crop and related target — verify'),group('Та же культура, другое назначение','Same crop, other uses'),group('Микробные препараты для других культур','Microbial products for other crops')];groups[0].h.parentElement.open=true;
 const diag=el(box,'details');el(diag,'summary',T('Диагностика источника','Source diagnostics'));const diagnostic=el(diag,'div');diagnostic.className='muted';
 el(box,'p',T('Совпадение текста не подтверждает эффективность, безопасность или актуальную регистрацию. Проверяйте действующую этикетку.','Text matching does not establish efficacy, safety or current registration. Verify the current label.')).className='muted';
 let controller=null,seq=0;stop=()=>{seq++;controller?.abort();go.disabled=false;cancel.hidden=true};cancel.onclick=()=>{stop();status.textContent=T('Остановлено. Результаты неполные.','Stopped. Results incomplete.')};
@@ -675,12 +675,15 @@ function display(entry,parent,reason){
  el(d,'p',T('Почему показан: ','Why listed: ')+reason).className='muted';
  el(d,'p',T('Действующее вещество: ','Active ingredient: ')+(val(r,ak)||'—'));
  const intro=el(d,'p',T('Найденные применения по этой лицензии: ','Recorded uses under this license: ')+rows.length);intro.style.fontWeight='600';
- const byCrop=rows.filter(item=>matchesCrop(val(item,ck)));const otherCrop=rows.filter(item=>!matchesCrop(val(item,ck)));
- const renderUses=(items,title)=>{if(!items.length)return;const dd=el(d,'details');dd.open=title==='selected';el(dd,'summary',title==='selected'?T('Выбранная культура','Selected crop')+' ('+items.length+')':T('Другие культуры','Other crops')+' ('+items.length+')');const ul=el(dd,'ul');const seenUses=new Set();let shown=0;for(const item of items){const c=val(item,ck)||'—',t=val(item,tk)||'—',k=norm(c)+'|'+norm(t);if(seenUses.has(k))continue;seenUses.add(k);if(shown++>=40)continue;const li=el(ul,'li',c+' — '+t);const url=val(item,['קישור לתווית','תווית','label_url','Label URL']);if(/^https:\/\//i.test(url)){li.appendChild(document.createTextNode(' · '));const a=el(li,'a',T('Этикетка ↗','Label ↗'));a.href=url;a.target='_blank';a.rel='noopener noreferrer';}}if(seenUses.size>40)el(dd,'p',T('Показаны первые 40 уникальных применений.','First 40 distinct uses shown.')).className='muted';};
- renderUses(byCrop,'selected');renderUses(otherCrop,'other');
- if(entry.group===2)el(d,'p',T('Совпадение по заболеванию обнаружено только на другой культуре. Это исследовательская находка, НЕ разрешение и НЕ рекомендация для выбранной культуры.','Disease-related use was found only on a different crop. Research lead ONLY; NOT an authorization or recommendation for the selected crop.')).className='warning';
- if(entry.group===4)el(d,'p',T('Совпадения по культуре или заболеванию не установлены.','No crop or disease match established.')).className='muted';
- if(entry.group===3)el(d,'p',T('Культура совпадает, но назначение другое. Не переносите эффективность на указанную проблему.','Crop matches, but the recorded use is different. Do not infer efficacy for the selected problem.')).className='muted';
+ const ul=el(d,'ul');const useSeen=new Set();let shown=0;
+ for(const item of rows){const c=val(item,ck)||'—',t=val(item,tk)||'—';const k=norm(c)+'|'+norm(t);if(useSeen.has(k))continue;useSeen.add(k);if(shown++>=40)continue;
+ const li=el(ul,'li',c+' — '+t);
+ const url=val(item,['קישור לתווית','תווית','label_url','Label URL']);
+ if(/^https:\/\//i.test(url)){li.appendChild(document.createTextNode(' · '));const a=el(li,'a',T('Этикетка ↗','Label ↗'));a.href=url;a.target='_blank';a.rel='noopener noreferrer';}
+ }
+ if(useSeen.size>40)el(d,'p',T('Показаны первые 40 различных применений.','First 40 distinct uses shown.')).className='muted';
+ if(entry.group===3)el(d,'p',T('Внимание: совпадение для выбранной культуры не найдено. Это НЕ рекомендация для неё.','Warning: no match for the selected crop was found. This is NOT a recommendation for that crop.')).className='muted';
+ if(entry.group===2)el(d,'p',T('Культура совпадает, но назначение другое. Не переносите эффективность на указанную проблему.','Crop matches, but the recorded use is different. Do not infer efficacy for the selected problem.')).className='muted';
  el(d,'p',T('Проверьте действующую этикетку и актуальный статус регистрации.','Check the current label and authorization status.')).className='muted';
 }
 go.onclick=async()=>{stop();const my=seq;const prob=problems[type];if(!crop){status.textContent=T('Укажите культуру.','Enter a crop.');return}if(!prob){status.textContent=T('Для этой проблемы сопоставление реестра пока не поддерживается.','Registry matching is not yet supported for this problem.');return}
@@ -693,7 +696,7 @@ for(const r of rows){Object.keys(r).forEach(k=>fields.add(k));const rid=String(r
 const active=val(r,ak),name=val(r,nk),c=val(r,ck),target=val(r,tk);if(!active)missingActive++;if(samples.length<8)samples.push((active||'[empty active]')+' / '+(name||'[empty name]'));
 if(!microRE.test(active+' '+name))continue;micro++;if(microSamples.length<8)microSamples.push((active||'[empty active]')+' / '+(name||'[empty name]'));
 const same=matchesCrop(c),exact=prob.direct.test(target),related=prob.related.test(target)||(pathogen&&norm(target).includes(norm(pathogen)));
-const idx=same?(exact?0:related?1:3):(exact||related?2:4);
+const idx=same?(exact?0:related?1:2):3;
 const license=val(r,lk),key=license?'license:'+norm(license):'unlicensed:'+norm(name)+'|'+norm(active);
 if(!licenses.has(key))licenses.set(key,{r,rows:[],group:idx});
 const entry=licenses.get(key);entry.rows.push(r);
@@ -706,7 +709,7 @@ if(rows.length<100)break;
 if(my!==seq)return;
 const buckets=groups.map(()=>[]);
 for(const entry of licenses.values())buckets[entry.group].push(entry);
-groups.forEach((g,i)=>{g.h.textContent=T(g.ru,g.en)+' ('+buckets[i].length+')';let n=0;for(const entry of buckets[i]){if(n++>=30)break;const reasons=[T('Культура и назначение совпадают','Crop and recorded use match'),T('Культура совпадает; связанный патоген требует проверки','Crop matches; related pathogen needs verification'),T('Связанное заболевание, но другая культура','Related disease, different crop'),T('Та же культура, но другое назначение','Same crop, different recorded use'),T('Нет подтверждённого совпадения по культуре или заболеванию','No confirmed crop or disease match')];display(entry,g.body,reasons[i])}if(buckets[i].length>30)el(g.body,'p',T('Показаны первые 30 лицензий. Уточните поиск для остальных.','First 30 licenses shown. Refine search for more.')).className='muted'});
+groups.forEach((g,i)=>{g.h.textContent=T(g.ru,g.en)+' ('+buckets[i].length+')';let n=0;for(const entry of buckets[i]){if(n++>=30)break;const reasons=[T('Совпадение культуры и формулировки назначения','Crop and recorded use match'),T('Культура совпадает; связанный патоген требует проверки','Crop matches; related pathogen needs verification'),T('Та же культура, но другое назначение','Same crop, different recorded use'),T('Применения только для других культур в проверенной выборке','Only other-crop uses in checked sample')];display(entry,g.body,reasons[i])}if(buckets[i].length>30)el(g.body,'p',T('Показаны первые 30 лицензий. Уточните поиск для остальных.','First 30 licenses shown. Refine search for more.')).className='muted'});
 
 el(diagnostic,'p',T('Уникальных записей: ','Unique records: ')+checked+' · '+T('Строк получено: ','Rows returned: ')+returned+' · '+T('Микробных по ключевым словам: ','Microbial by keywords: ')+micro+' · '+T('Без действующего вещества: ','Without active ingredient: ')+missingActive);
 const kd=el(diagnostic,'details');el(kd,'summary',T('Названия полей','Registry field names'));el(kd,'p',[...fields].join(' · ')||'—');
@@ -717,6 +720,51 @@ status.textContent=T('Поиск завершён. ','Search finished. ')+T('М�
 };
 }
 document.getElementById('problemFindBtn')?.addEventListener('click',()=>setTimeout(show,0));
+})();
+</script>
+<script>
+/* RhizoAI 0.9.21: literature discovery; metadata matches are not efficacy verification. */
+(()=>{
+const el=id=>document.getElementById(id);
+const words=(s)=>String(s||'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(x=>x.length>3);
+const node=(tag,txt)=>{const x=document.createElement(tag);if(txt!==undefined)x.textContent=txt;return x};
+const candidateNames=['Bacillus velezensis FZB42','Pseudomonas simiae WCS417','Trichoderma harzianum'];
+function ui(){const root=el('problemResults');if(!root)return;root.querySelector('#rhizoEvidencePanel')?.remove();
+const panel=node('div');panel.id='rhizoEvidencePanel';panel.className='card';
+const ru=(document.documentElement.lang||'').toLowerCase().startsWith('ru');
+const label=(a,b)=>ru?a:b;
+panel.append(node('h3',label('Научные публикации: культура × патоген × штамм','Literature: crop × pathogen × strain')));
+panel.append(node('p',label('Поиск в Europe PMC по названию культуры, предполагаемому патогену и выбранному штамму. Совпадение слов в метаданных статьи НЕ подтверждает эффективность.','Search Europe PMC using crop, suspected pathogen and a candidate strain. Metadata keyword matches DO NOT establish efficacy.')));
+const crop=el('problemCrop')?.value.trim()||'', pathogen=el('problemPathogen')?.value.trim()||'';
+const row=node('div');row.className='grid';
+const strain=node('select');strain.id='rhizoEvidenceStrain';candidateNames.forEach(n=>{const o=node('option',n);o.value=n;strain.append(o)});
+const custom=node('input');custom.id='rhizoEvidenceCustom';custom.placeholder=label('Или введите точное название штамма','Or enter an exact strain name');
+const pat=node('input');pat.id='rhizoEvidencePathogen';pat.value=pathogen;pat.placeholder=label('Укажите установленный патоген','Enter an identified pathogen');
+const cropField=node('input');cropField.id='rhizoEvidenceCrop';cropField.value=crop;cropField.placeholder=label('Культура','Crop');
+for(const [t,x] of [[label('Культура','Crop'),cropField],[label('Патоген','Pathogen'),pat],[label('Кандидатный штамм','Candidate strain'),strain],[label('Другой штамм (необязательно)','Other strain (optional)'),custom]]){const w=node('div');w.append(node('label',t),x);row.append(w)}panel.append(row);
+const button=node('button',label('Искать публикации','Search publications'));button.type='button';button.className='secondary';panel.append(button);
+const result=node('div');result.setAttribute('aria-live','polite');panel.append(result);root.append(panel);
+button.addEventListener('click',async()=>{
+const c=cropField.value.trim(),pa=pat.value.trim(),st=custom.value.trim()||strain.value;
+result.replaceChildren();if(!c||!pa||!st){result.append(node('p',label('Для точного поиска заполните культуру, патоген и штамм. Если патоген неизвестен, сначала подтвердите его лабораторно.','Enter crop, pathogen and strain. If the pathogen is unknown, confirm it in the laboratory first.')));return}
+const query='"'+st.replace(/"/g,'')+'" AND "'+pa.replace(/"/g,'')+'" AND ('+c.replace(/[()"\[\]]/g,'')+')';
+const external=node('a',label('Открыть запрос в Europe PMC ↗','Open query in Europe PMC ↗'));external.href='https://europepmc.org/search?query='+encodeURIComponent(query);external.target='_blank';external.rel='noopener noreferrer';result.append(external);
+result.append(node('p',label('Загрузка записей…','Loading records…')));button.disabled=true;
+try{const ctl=new AbortController();const timeout=setTimeout(()=>ctl.abort(),15000);
+let response;try{response=await fetch('https://www.ebi.ac.uk/europepmc/webservices/rest/search?query='+encodeURIComponent(query)+'&format=json&pageSize=12&resultType=core',{signal:ctl.signal})}finally{clearTimeout(timeout)}
+if(!response.ok)throw Error('HTTP '+response.status);const data=await response.json();result.querySelector('p')?.remove();
+const records=data.resultList?.result||[];
+result.append(node('p',label('Найдено по поисковому запросу: ','Search hits: ')+(data.hitCount??records.length)+'. '+label('Это поисковые совпадения, а не подтверждённые испытания.','These are search hits, not verified experiments.')));
+if(!records.length){result.append(node('p',label('Точных совпадений нет. Попробуйте название вида без номера штамма, но учитывайте снижение точности.','No exact hits. Try the species without the strain ID, noting reduced specificity.')));return}
+const list=node('div');const stTokens=words(st),pTokens=words(pa),cTokens=words(c);
+records.forEach(x=>{const block=node('div');block.style.cssText='border-top:1px solid #ddd;padding:12px 0';const title=node('a',x.title||'Untitled');title.href=x.doi?'https://doi.org/'+encodeURIComponent(x.doi):'https://europepmc.org/article/'+encodeURIComponent(x.source||'MED')+'/'+encodeURIComponent(x.id||'');title.target='_blank';title.rel='noopener noreferrer';block.append(title);
+const meta=node('p',(x.authorString||'')+' · '+(x.pubYear||'')+' · '+(x.doi?'DOI: '+x.doi:'ID: '+(x.id||'unknown')));meta.className='muted';block.append(meta);
+const txt=((x.title||'')+' '+(x.abstractText||'')).toLowerCase();const hits=[['crop',cTokens],['pathogen',pTokens],['strain',stTokens]].map(([k,arr])=>k+': '+(arr.length&&arr.every(t=>txt.includes(t))?'mentioned':'not established')).join(' · ');
+const flag=node('p',hits);flag.className='muted';block.append(flag);
+block.append(node('small',label('Проверить полный текст, методы, точность идентификации штамма, культуру, контроль и исходы опыта.','Check full text, methods, strain identity, crop, controls and experimental outcomes.')));list.append(block)});result.append(list);
+}catch(err){result.querySelector('p')?.remove();result.append(node('p',label('Не удалось получить данные. Используйте ссылку на Europe PMC выше.','Could not retrieve records. Use the Europe PMC link above.')+' ('+err.message+')'))}finally{button.disabled=false}
+});}
+el('problemFindBtn')?.addEventListener('click',()=>setTimeout(ui,0));
 })();
 </script>
 </body></html>
