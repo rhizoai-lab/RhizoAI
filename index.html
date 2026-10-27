@@ -723,13 +723,15 @@ document.getElementById('problemFindBtn')?.addEventListener('click',()=>setTimeo
 })();
 </script>
 <script>
-/* RhizoAI v0.9.23: strain-specific evidence triage, not efficacy validation. */
+/* RhizoAI v0.9.24: conservative evidence screening, not efficacy validation. */
 (()=>{
 const el=id=>document.getElementById(id), node=(tag,txt)=>{const n=document.createElement(tag);if(txt!==undefined)n.textContent=txt;return n};
 const ru=()=>document.documentElement.lang.toLowerCase().startsWith('ru');
 const T=(r,e)=>ru()?r:e;
 const clean=s=>{const t=document.createElement('textarea');t.innerHTML=String(s||'');return t.value.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim()};
 const norm=s=>clean(s).toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+const escapeRE=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const word=s=>new RegExp('(?:^|[^a-z0-9])'+escapeRE(s.toLowerCase())+'(?=$|[^a-z0-9])','i');
 const has=(s,p)=>{const a=norm(s),b=norm(p);return b.length>2&&(' '+a+' ').includes(' '+b+' ')};
 const aliases=c=>/^(tomato|tomatoes|solanum lycopersicum|lycopersicon esculentum)$/i.test(c)?['tomato','solanum lycopersicum','lycopersicon esculentum']:/^(wheat|triticum aestivum)$/i.test(c)?['wheat','triticum aestivum']:[c];
 const parts=s=>{const a=s.trim().split(/\s+/);return {species:a.slice(0,2).join(' '),id:a.slice(2).join(' ')}};
@@ -739,7 +741,7 @@ const isReview=x=>/review|meta.analysis|systematic review/i.test(JSON.stringify(
 function build(){const root=el('problemResults');if(!root)return;root.querySelector('#rhizoEvidencePanel')?.remove();
 const panel=node('div');panel.id='rhizoEvidencePanel';panel.className='card';
 panel.append(node('h3',T('Литература: культура × патоген × штамм','Literature: crop × pathogen × strain')));
-panel.append(node('p',T('Отдельно показываются упоминания выбранного штамма, другого штамма того же вида и смежные исследования. Это НЕ оценка доказанной эффективности.','Separate categories for selected strain, other strains of the same species, and related research. These are NOT verified efficacy claims.')));
+panel.append(node('p',T('Отдельно показываются упоминания выбранного штамма, другого штамма того же вида и смежные исследования. Это НЕ оценка доказанной эффективности.','Separate categories for selected strain, other strains of the same species, and related research. Co-mentions and experimental keywords are NOT verified efficacy claims.')));
 const row=node('div');row.className='grid';const crop=node('input'),pat=node('input'),strain=node('select'),custom=node('input');crop.value=el('problemCrop')?.value.trim()||'';pat.value=el('problemPathogen')?.value.trim()||'';crop.placeholder='Tomato';pat.placeholder='Fusarium oxysporum';custom.placeholder='Bacillus velezensis FZB42';
 candidates.forEach(n=>{const o=node('option',n);o.value=n;strain.append(o)});
 for(const [name,input] of [[T('Культура','Crop'),crop],[T('Патоген','Pathogen'),pat],[T('Кандидатный штамм','Candidate strain'),strain],[T('Другой штамм (необязательно)','Other strain (optional)'),custom]]){const w=node('div');w.append(node('label',name),input);row.append(w)}panel.append(row);
@@ -752,17 +754,36 @@ try{const seen=new Map(),stats=[];for(const stage of stages){status.textContent=
 status.textContent=T('Поиск завершён. Проверено библиографических записей: ','Search finished. Unique bibliographic records screened: ')+seen.size;
 const info=node('p',stats.map(s=>s.stage+': '+s.total+' '+T('совпадений','hits')+' ('+s.returned+' '+T('получено','retrieved')+')').join(' · '));info.className='muted';result.append(info);
 const note=node('p',T('Оценка основана только на названии и доступной аннотации. Поиск не подтверждает методы, результаты или разрешение на применение.','Screening uses titles and available abstracts only. Methods, outcomes, and authorization are not verified.'));note.className='muted';result.append(note);
-const records=[...seen.values()].map(x=>{const title=clean(x.title),abstract=clean(x.abstractText),txt=title+' '+abstract;const cm=ca.some(a=>has(txt,a)),pm=has(txt,p),species=has(txt,sp.species),exact=sp.id?has(txt,sp.id)&&species:species;
-const review=isReview(x);let group=exact?'exact':species?'alternative':'related';return {x,title,abstract,cm,pm,species,exact,review,group,score:Number(cm)+Number(pm)+Number(exact)}});
+const records=[...seen.values()].map(x=>{
+ const title=clean(x.title),abstract=clean(x.abstractText),txt=title+' '+abstract;
+ const cm=ca.some(a=>has(txt,a)),pm=has(txt,p),species=has(txt,sp.species);
+ // Never infer exact-strain identity from species name alone.
+ const exact=Boolean(sp.id&&species&&has(txt,sp.id));
+ const review=isReview(x);
+ // Presence in a reference or background sentence cannot establish a treatment arm.
+ const experimentWords=/\b(inoculat|challeng|treat|appli|biocontrol|antagonis|greenhouse|pot experiment|field trial|disease severity|disease incidence|inhibit|suppress|control group|experiment)/i.test(txt);
+ const mainOrganism=has(title,sp.species)||Boolean(sp.id&&has(title,sp.id));
+ const titleCrop=ca.some(a=>has(title,a)),titlePathogen=has(title,p);
+ const contextual=exact&&cm&&pm&&experimentWords&&mainOrganism;
+ let group=exact?'exact':species?'alternative':'related';
+ const quality=contextual?'candidate':exact&&cm&&pm?'comention':exact?'mention':cm&&pm?'related':'background';
+ const score=Number(cm)*2+Number(pm)*2+Number(exact)*3+Number(mainOrganism)*2+Number(titleCrop)+Number(titlePathogen)+Number(experimentWords)-Number(review)*3;
+ return {x,title,abstract,cm,pm,species,exact,review,group,quality,score,mainOrganism,experimentWords,titleCrop,titlePathogen};
+});
 const groups=[['exact',T('Выбранный штамм: упоминание в публикации','Selected strain mentioned in publication')],['alternative',T('Тот же вид, но выбранный штамм не подтверждён','Same species; selected strain not confirmed')],['related',T('Смежные публикации','Related research')]];
 const exactTriples=records.filter(r=>r.exact&&r.cm&&r.pm).length;
+const plausible=records.filter(r=>r.quality==='candidate').length;
 const summary=node('p',T('Упоминаний всех трёх параметров: ','Records mentioning all three parameters: ')+exactTriples+'. '+T('Это не подтверждённые испытания эффективности.','These are not verified efficacy trials.'));result.append(summary);
+const verified=node('p',T('Экспериментально подтверждённых работ: 0 (полные тексты и результаты не проверялись). Кандидатов для ручной проверки: ','Experimentally verified studies: 0 (full texts and outcomes were not checked). Candidates for manual verification: ')+plausible+'.');verified.className='warning';result.append(verified);
 if(!exactTriples){const warning=node('p',T('В просмотренных названиях и аннотациях нет подтверждённого совместного упоминания культуры, патогена и выбранного штамма. Это НЕ означает отсутствия таких исследований в литературе.','No co-mention of crop, pathogen and selected strain was established in the screened titles/abstracts. This does NOT mean no such research exists.'));warning.className='warning';result.append(warning)}
 for(const [id,label] of groups){const items=records.filter(r=>r.group===id).sort((a,b)=>b.score-a.score||Number(a.review)-Number(b.review));const det=node('details');det.open=id==='exact'||(id==='alternative'&&!records.some(r=>r.group==='exact'));det.style.cssText='border-top:1px solid #dce9e0;padding:12px 0';const head=node('summary',label+' ('+items.length+')');head.style.cssText='font-weight:700;cursor:pointer';det.append(head);
 if(!items.length)det.append(node('p',T('В полученных записях совпадений нет.','No matches in retrieved records.')));
 for(const r of items){const x=r.x,block=node('div');block.style.cssText='border-top:1px solid #e3e9e4;padding:12px 0';const a=node('a',r.title||'Untitled');a.href=x.doi?'https://doi.org/'+encodeURIComponent(x.doi):'https://europepmc.org/article/'+encodeURIComponent(x.source||'MED')+'/'+encodeURIComponent(x.id||'');a.target='_blank';a.rel='noopener noreferrer';block.append(a);
 const meta=node('p',clean(x.authorString)+' · '+(x.pubYear||'')+' · '+(x.doi?'DOI: '+x.doi:'ID: '+(x.id||'—')));meta.className='muted';block.append(meta);
 const kind=r.review?T('Обзор / возможный обзор','Review / possible review'):T('Тип исследования не подтверждён','Study type not verified');
+const qualityLabel={candidate:T('Кандидат для проверки методов — НЕ подтверждено','Methods-check candidate — NOT verified'),comention:T('Совместное упоминание — эксперимент не подтверждён','Co-mention — experiment unverified'),mention:T('Упоминание штамма без полной комбинации','Strain mention without full combination'),related:T('Связанная работа, не тот штамм','Related work, not selected strain'),background:T('Фоновая публикация / косвенное совпадение','Background / indirect match')}[r.quality];
+const q=node('p',qualityLabel);q.style.cssText='font-weight:600;color:#795722';block.append(q);
+const obj=node('p',T('Вид в названии: ','Species in title: ')+(r.mainOrganism?'✓':'—')+' · '+T('Экспериментальные термины: ','Experimental terms: ')+(r.experimentWords?'✓':'—')+' · '+T('Полный текст проверен: нет','Full text checked: no'));obj.className='muted';block.append(obj);
 const label=node('p',kind+' · '+T('Культура: ','Crop: ')+(r.cm?'✓':'—')+' · '+T('Патоген: ','Pathogen: ')+(r.pm?'✓':'—')+' · '+T('Выбранный штамм: ','Selected strain: ')+(r.exact?'✓':r.species?T('только вид','species only'):'—'));label.className='muted';block.append(label);
 const basis=node('p',T('Совпадения определены по названию/аннотации; не проверено, были ли параметры частью одного эксперимента.','Matches come from title/abstract; whether they were tested together in one experiment is unverified.'));basis.className='muted';block.append(basis);
 if(id==='alternative')block.append(node('small',T('Другой штамм того же вида нельзя считать эквивалентом выбранного штамма.','Another strain of the same species is not interchangeable with the selected strain.')));
